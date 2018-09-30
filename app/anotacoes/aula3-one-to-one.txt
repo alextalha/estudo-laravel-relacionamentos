@@ -1,0 +1,229 @@
+Aula 2
+==========
+
+
+
+um pra um  (one to one)
+=============
+
+pais e para cada pais uma localização
+
+countrys
+locations
+
+
+#criando a model dentro da pasta model e já criando a migration
+php artisan make:Model Models\\Country -m
+
+
+
+migration do pais
+===========================
+public funtion up(){
+
+
+Schema::create('countries', function (Blueprint $table)){
+
+    $table->increments('id');
+    $table->string('name',150)->unique();
+    $table->timestamps()
+
+}
+
+}
+
+#criando a model de localization
+
+php artisan make:model Model\\Location -m
+
+
+migration do locations
+
+
+public function up(){
+
+    Schema::create('locations', function (Blueprint $table)){
+        $table->increments('id');
+        $table->integer('latitude', 60);
+        $table->integer('longitude', 60);
+        $table->integer('country_id')->unsigned();
+        $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
+        $table->timestamps();
+
+    }
+
+}
+
+
+
+
+criamos dois paises no phpmyadmin
+e dois locations fazendo referencia
+
+
+
+Route::get('one-to-one','OneToOneController@OneToOne');
+
+
+
+#criando a OneToOneController
+
+php artisan make:controller OneToOneController
+
+
+#funcao dentro da controller
+
+
+public function oneToOne()
+{
+    $country = Country::find(1);
+    #$country = Country::where('name','Brasil')->get();  ## retorna de forma array
+    #$country = Country::where('name','Brasil')->get()->first()  #retorna de forma object para um elemento
+
+
+    $country->name; # só funciona dessa forma se for objeto
+
+    $location = $country->location;
+    echo "<hr>Latitude: {$location->latitude}</hr>";
+    echo "<hr>Longitude: {$location->longitude}</hr>";
+    echo "<hr></hr>";
+
+
+}
+
+==========================================================
+
+#fazendo o relacionamento
+
+#Country Controller
+
+#adicioamos a model location na model de country
+use App\Models\Location
+
+class Country extends Model
+{
+    public function location()
+    {
+        return $this->hasOne(Location::class);
+
+        #quando não seguimos o padrão de nomeclatura da chave primaria tanto na principal quanto na filha temos que passar no relacionamento
+        return $this->hasOne(Location::class,'id-chave-estrangueira','id-chave-primaria');
+
+    }
+
+}
+
+
+
+==========================================================================================================================
+
+ONE TO ONE INVERSE
+
+
+criamos uma nova rota
+Route::get('one-to-one-inverse','OneToOneController@OneToOneInverse');
+
+
+
+###Criaremos o metodo na controller
+
+
+public function oneToOneInverse()
+{
+$latitude = 123;
+$longitude = 321;
+
+
+$location = Location::where('latitude',$latitude)->where('longitude',$longitude)->get()->first();
+
+#vamos ver se retornará o id referente ao pais
+echo $location->id;
+
+}
+
+
+#vamos na model de location
+
+
+
+#quando trazemos apenas um resultado trazemos no singular
+public function country()
+{
+return $this->belongsTo(Country::class);
+
+
+}
+
+
+==========================================================
+
+
+VEREMOS CADASTRO.
+
+
+nova rota
+
+Route::get('one-to-one-insert','OneToOneController@oneToOneInsert');
+
+
+
+
+agora na controller
+
+
+public function oneToOneInsert()
+{
+$dataForm = [
+    'name' => 'Alemanha',
+    'latitude' => '78',
+    'longitude' => '87'
+]
+
+
+$country = Contry::create($dataForm);
+
+#forma 1
+$dataForm['country_id'] = $country->id
+$localization = Location::create($dataForm);
+
+#forma 2
+
+$location = new Location;
+
+$location->latitude = $dataForm['latitude'];
+$location->longitude = $dataForm['longitude'];
+$location->country_id = $country->id;
+$saveLocation = $location->save;
+
+
+#forma 3
+
+$location = $country->location()->create($dataForm)
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

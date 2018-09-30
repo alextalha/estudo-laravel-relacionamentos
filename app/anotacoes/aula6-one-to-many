@@ -1,0 +1,102 @@
+
+[[[[[[[Pais tem vários estados  ]]]]]]]]]]]]]]
+
+
+
+Rota
+===============
+
+Route::get('one-to-many' ,'OneToManyController@oneToMany');
+
+
+Artisan
+================
+
+php artisan make:controller OneToManyController
+php artisan make:model Models\\State -m
+php artisan make:model Models\\City -m
+
+
+Migrate
+=========================
+
+State
+
+public function up()
+{
+    Schema::create('states',function(Blueprint $table))
+    {
+     $table->increments('id');
+     $table->integer('country_id')->unsigned();
+     $table->foreign('country_id')->references('id')->on('country')->onDelete('cascade');
+     $table->string('name',100);
+     $table->string('initials',10);
+     $table->timestamps();
+
+
+    }
+}
+
+City
+
+public function up()
+{
+    Schema::create('states',function(Blueprint $table))
+    {
+     $table->increments('id');
+     $table->integer('state_id')->unsigned();
+     $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
+     $table->string('name',100);
+     $table->string('name',100);
+     $table->timestamps();
+
+    }
+
+}
+
+
+
+controller
+=============================
+
+public function oneToMany()
+{
+
+#$country = Country::where('name','Brasil')->get()->first();
+#$country = Country::where('initials','GO')->get()->first();
+#mais de um country;
+$countries = Country::where('name','LIKE',"%{a}%)->get();
+
+
+echo $country->id;
+
+$states = $country->states;
+
+foreach($states as $state)
+{
+    echo "<hr>{$states->initials} -  {$state->name}</hr>";
+}
+
+}
+
+
+na model de country
+===============================
+
+
+public function states()
+{
+    return $this->hasMany(State::class);
+    
+}
+
+
+
+
+
+
+
+
+
+
+
