@@ -161,6 +161,16 @@ return $this->belongsTo(Country::class);
 VEREMOS CADASTRO.
 
 
+precisamos setar as variaveis na model que podem ser atualizados. 
+
+#no country
+protected $fillable = ['name '];
+
+
+#no location 
+protected $fillable = ['latitude','longitude'];
+
+
 nova rota
 
 Route::get('one-to-one-insert','OneToOneController@oneToOneInsert');

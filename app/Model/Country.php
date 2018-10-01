@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Model\Location;
-
+use App\Model\State;
 
 class Country extends Model
 {
@@ -15,5 +15,10 @@ class Country extends Model
 
         return $this->hasOne(Location::class);
 
+    }
+
+    public function states(){
+
+        return $this->hasMany(State::class);
     }
 }
