@@ -1,0 +1,36 @@
+
+como trazer na consulta principal suas relações. 
+
+
+#na mesma consulta de pais já trazer o estado vinculado a ele.
+$country = Country::where('name','LIKE',"%Bra%")->with('states')->get();
+
+debugar no laravel 
+>> dd($variaveldaconsulta);
+
+================================================================================
+
+
+despadronizar os valores no laravel
+
+chave principal de country segue a esta nomeclatura 
+
+country_id = model_campo
+
+se mudar isso tempos que passar mais um parametro na função do relacionamento
+
+
+
+public function states(){
+
+    return $this->hasMany(State::class,'variavel_despadronizada');
+
+}
+
+
+======================================================================================
+
+
+
+
+
