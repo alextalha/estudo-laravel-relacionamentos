@@ -25,7 +25,6 @@ class OneToManyController extends Controller
 
         echo "<br />";
 
-
         $countries = Country::distinct()->get();
 
         foreach($countries as $ct){
@@ -37,10 +36,25 @@ class OneToManyController extends Controller
                 echo "{$state->initials} - {$state->name}";
                 echo "<br />";
             }
-            
+
             echo "<hr>";
         
         }
+
+    }
+
+
+
+    public function manyToOne(){
+        
+        $stateName = 'Xangai';
+
+        $state = State::where('name',$stateName)->get()->first();
+
+        $country = $state->country;
+
+        echo $country->name;
+
 
     }
 }
