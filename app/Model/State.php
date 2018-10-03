@@ -8,6 +8,8 @@ use App\Model\City;
 
 class State extends Model
 {
+
+    protected $fillable = ['name','initials'];
     
     public function cities()
     {

@@ -1,0 +1,53 @@
+Cadastro one-to-many
+
+
+Rota-----------
+Route::get('one-to-many-insert','OneToManyController@oneToManyInsert');
+
+
+Model ----------------states
+
+//adicionar
+protected $fillable = ['name','initials'];
+
+
+Controller-----------OneToManyController
+
+
+----------------possibilidade 1 --------------------------
+public function oneToManyInsert(){
+
+
+$dataForm[
+    'name' => 'Ceará',
+    'initials' => 'CE'
+];
+
+    //$country = Country::where('name','Brasil')->get()->first();
+     $country = Country::find(1);
+
+     $insertStates = $country->states()->create($dataForm)
+     var_dump($insertStates);
+     var_dump($insertStates->state);
+
+}
+
+
+
+----------------possibilidade 2 --------------------------
+
+
+public function oneToManyInsert(){
+
+
+$dataForm[
+    'name' => 'Ceará',
+    'initials' => 'CE'
+    'country_id' => 1
+];
+
+     $insertStates = State::create($dataForm)
+     var_dump($insertStates);
+     var_dump($insertStates->state);
+
+}

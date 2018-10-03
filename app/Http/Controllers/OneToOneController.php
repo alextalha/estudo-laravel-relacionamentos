@@ -48,4 +48,11 @@ class OneToOneController extends Controller
         $location = $country->location()->create($dataForm);
 
     }
+
+
+    public function oneToManyInsert(){
+
+        echo 'asdasddsds';
+        
+    }
 }
