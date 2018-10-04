@@ -5,13 +5,6 @@ Vamos cadastrar manualmente algumas cidades
 $this->get('one-to-many-two','OneToManyController@manyToOneTwo');
 
 
-
-OneToManyController-------------
-
-Copiar a funcao oneToMany e replica para oneToManyTwo
-
-
-
 State ---------------------------
 
 
@@ -20,3 +13,14 @@ public function cities(){
     return $this->hasMany(City::class);
     
 }
+
+
+
+OneToManyController-------------
+
+Copiar a funcao oneToMany e replica para oneToManyTwo
+
+
+
+
+

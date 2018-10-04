@@ -8,7 +8,9 @@ Route::get('one-to-many-insert','OneToManyController@oneToManyInsert');
 Model ----------------states
 
 //adicionar
-protected $fillable = ['name','initials'];
+protected $fillable = ['name','initials','country_id'];
+
+//nota : o insert cruzando com a tabela de país o country_id
 
 
 Controller-----------OneToManyController

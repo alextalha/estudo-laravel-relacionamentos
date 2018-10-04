@@ -50,9 +50,5 @@ class OneToOneController extends Controller
     }
 
 
-    public function oneToManyInsert(){
-
-        echo 'asdasddsds';
-        
-    }
+  
 }

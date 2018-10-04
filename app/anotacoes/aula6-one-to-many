@@ -92,6 +92,29 @@ public function states()
 
 
 
+===============================================
+
+ONE TO MANY INVERSO
+
+Rota----
+
+$this->get('many-to-one','OneToMany@manyToOne')
+
+
+Na controller -----
+
+
+public function manyToOne()
+{
+    $stateName = 'São Paulo'
+
+    $state = State::where('name',$stateName);
+
+    $country = $state->location
+
+
+}
+
 
 
 

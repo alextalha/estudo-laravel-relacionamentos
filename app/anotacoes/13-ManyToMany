@@ -1,0 +1,60 @@
+Empresa pode estar em vários estados 
+
+cidade | empresa 
+
+vamos criar uma tabela pivot
+
+------------------ Estrutura de tabelas 
+
+php artisan make:model Models\\Company -m 
+
+php artisan make:migration create_company_city_table 
+
+
+------------------------CreateCompaniesTable migration
+
+
+public function up(){
+
+    Chema::create('companies',function(Blueprint $table){
+
+        $table->increments('id');
+        $table->string('name',200);
+        $table->timestamps();
+
+    });
+
+}
+
+
+
+
+------------------------CreateCompaniesCitiesTable migration
+
+tabela intermediaria 
+
+
+public function up(){
+
+    Chema::create('company_city',function(Blueprint $table){
+
+        $table->increments('id');
+        $table->integer('city_id');->unsigned();
+        $table->integer('company_id')->unsigned();
+        $table->string('name',100);
+
+        $table->foreign('city_id');->references('id')->on('cities')->onDelete('cascade');
+        $table->foreign('company_id');->references('id')->on('companies')->onDelete('cascade');
+
+        $table->string('name',200);
+        $table->timestamps();
+
+    });
+
+}
+
+
+-----------------------------
+
+Inserir alguns dados ficticios 
+
