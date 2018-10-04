@@ -26,9 +26,6 @@ public function up(){
 
 }
 
-
-
-
 ------------------------CreateCompaniesCitiesTable migration
 
 tabela intermediaria 
@@ -58,3 +55,53 @@ public function up(){
 
 Inserir alguns dados ficticios 
 
+
+==================================================================================================================================
+
+
+AULA 14
+=============
+
+$this->get('many-to-many', ManyToManyController@manyToMany)
+
+
+php artisan make:controller ManyToManyController
+
+
+
+
+----------------Controller Many to Many
+
+
+use App\Model\City;
+use App\Model\State;
+
+
+public function manyToMany(){
+
+$city = City::where('name','SAO PAULO')->get()->first();
+
+echo $city->name;
+
+
+$companies = $cit->companies
+
+foreach( $companies as $company){
+
+    echo $company->name;
+
+    }
+}
+
+-----------------  Model City
+
+
+public function companies()
+{
+    return $this->belongsToMany(Company::class,'company_city');
+}
+
+
+
+
+-----------------------------------------------------
