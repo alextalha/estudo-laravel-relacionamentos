@@ -1,0 +1,41 @@
+
+Apartir da empresa achar as cidades vinculadas 
+==============================================
+
+Rota
+$this->get('many-to-many-inverse',ManyToManyController@manyToManyInverse);
+
+
+
+ManyToManyInverseController =========================================================
+
+
+public function manyToManyInverse(){
+    
+    $company = Company::where('name','EspecializaTi')->get()->first();
+    echo "<b>{$company->name}:</b><br>";
+
+
+    $citiees = $company->cities;
+
+    foreach($companies as $city){
+
+        echo "{$city->name} <br>";
+    }
+
+}
+
+Company.php =============================================
+
+// fazendo relacionamento com cidade entretanto colocando a chave da tabela pivot 
+
+public function cities(){
+
+    return $this->belongsToMany('City::class,'company_city');
+}
+
+
+
+
+
+

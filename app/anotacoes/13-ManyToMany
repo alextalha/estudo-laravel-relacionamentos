@@ -6,10 +6,12 @@ vamos criar uma tabela pivot
 
 ------------------ Estrutura de tabelas 
 
+-m => criar junto com migration 
+
 php artisan make:model Models\\Company -m 
 
 php artisan make:migration create_company_city_table 
-
+ 
 
 ------------------------CreateCompaniesTable migration
 
@@ -28,7 +30,7 @@ public function up(){
 
 ------------------------CreateCompaniesCitiesTable migration
 
-tabela intermediaria 
+tabela intermediaria (pivot)
 
 
 public function up(){
@@ -38,7 +40,7 @@ public function up(){
         $table->increments('id');
         $table->integer('city_id');->unsigned();
         $table->integer('company_id')->unsigned();
-        $table->string('name',100);
+        //$table->string('name',100);
 
         $table->foreign('city_id');->references('id')->on('cities')->onDelete('cascade');
         $table->foreign('company_id');->references('id')->on('companies')->onDelete('cascade');
@@ -84,7 +86,7 @@ $city = City::where('name','SAO PAULO')->get()->first();
 echo $city->name;
 
 
-$companies = $cit->companies
+$companies = $city->companies
 
 foreach( $companies as $company){
 
@@ -98,6 +100,10 @@ foreach( $companies as $company){
 
 public function companies()
 {
+
+    // o correto a chave da pivot deveria estar no padrão city_company , quando não possuimos um padrão passamos como parametro 
+    // no relacionamento o nome 
+
     return $this->belongsToMany(Company::class,'company_city');
 }
 
@@ -105,3 +111,5 @@ public function companies()
 
 
 -----------------------------------------------------
+
+

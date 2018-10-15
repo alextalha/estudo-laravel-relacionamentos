@@ -1,0 +1,33 @@
+php artisan migrate refresh = apaga e recria as tabelas 
+
+
+
+public function manyToManyInsert(){
+
+$company =  Company::find(1)->get()->first();
+
+    $company = $dadaForm[1,2,3];
+    //inserir 
+
+    // attach =>sempre incrementa
+    $company->cities()->attach($valores);
+
+    // sync => ele remove e insere apenas os valores que foram passados pelo array no insert. logo são valores unicos.
+    $company->cities()->sync($valores);
+
+    // detach => remover valores do pivot  [remove todas as cidades vinculadas a empresa ]
+    $company->cities()->detach([1]);
+
+
+
+    $cities = $company->cities;
+
+
+    foreach($cities as $city){
+
+        echo $city->name;
+    }
+
+
+
+}

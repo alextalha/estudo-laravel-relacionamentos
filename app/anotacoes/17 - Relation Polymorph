@@ -1,0 +1,108 @@
+Relacionamento Polimorphico 
+
+
+Em vez de criamos várias tabelas de comentarios , teremos uma tabela só relacionada com varias models. 
+
+
+1 - N [ cidade - comentários]
+
+Artian =========================================
+
+php artisan make:controller PolymorphicController
+
+
+
+Rota ==============================
+
+$this->get('polymorphics',PolymorphicController@polymorphic);
+$this->get('polymorphics',PolymorphicController@polymorphicInsert);
+
+ 
+
+PolymorphicsController ============================================================================
+
+
+use App\Model\Models\City
+use App\Model\Models\State
+use App\Model\Models\Country
+use App\Model\Models\Comment
+
+
+class  PolymorphicsController extends Controller 
+{
+    public function polymorphic()
+    {
+
+        $city = City::where('name','Guarulhos')->get()->first();
+        echo $city->name;
+
+        $comments = $city->comments()->get();
+
+        foreach($comments as $comment ){
+            echo $comment->description;
+        
+        }
+
+
+    }
+    public function polymorphicInsert(){
+
+        $city = City::where('name','Guarulhos')->get()->first();
+        echo $city->name;
+
+
+        $comment = $city->comments()create([
+            'description' => "New Comment {$city->name}".date('YmdHis'),
+
+        ]);
+
+        var dump($comments);
+
+    }
+
+
+}
+
+
+Migration  ===================================================================
+
+
+php artisan make:Model Models\\Comment -m
+
+
+        public function up()
+    {
+        Schema::create('locations', function (Blueprint $table) {
+          $table->increments('id');
+          $table->text('description');
+          $table->morphs('commentable');
+          $table->timestamps();
+
+        });
+
+}
+
+
+
+php artisan migrate
+
+
+Comment =============================================================
+
+
+protected $fillable = ['description'];
+
+public function commentable()
+{
+    return $this->morphTo();
+}
+
+
+City ========================================================
+
+public function commentable()
+{
+    return $this->morphMany(Comment::class,'commentable');  // referencia a funcao na classe do Comment 
+
+}
+
